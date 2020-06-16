@@ -17,10 +17,10 @@
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="MSIFASTINSTALL" MultiBuildValue="DefaultBuild:1"/>
     <ROW Property="Manufacturer" Value="Caprine Logic"/>
-    <ROW Property="ProductCode" Value="1033:{F05D0AA1-E747-4C97-B0AD-01FDC20CFC4E} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{5B361EB1-FFC6-4B56-9C1C-E43C6102CF8E} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Net Checker"/>
-    <ROW Property="ProductVersion" Value="1.0.0.0" Type="32"/>
+    <ROW Property="ProductVersion" Value="1.0.1.0" Type="32"/>
     <ROW Property="RUNAPPLICATION" Value="1" Type="4"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{3CDB5083-5A59-475B-AF0D-47363DFD019A}"/>
