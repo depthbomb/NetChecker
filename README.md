@@ -6,7 +6,7 @@ A fast and lightweight tool for monitoring Internet connectivity.
 
 ## What is it?
 
-NetChecker is a .NET 4.5 program that runs silently in the background and checks for Internet connectivity at customizable interval. The status of your Internet connection can be seen by the application's tray icon.
+NetChecker is a .NET 4.5 program that runs silently in the background and checks for Internet connectivity at a customizable interval. The status of your Internet connection can be seen by the application's tray icon.
 
 ## How does it work?
 
