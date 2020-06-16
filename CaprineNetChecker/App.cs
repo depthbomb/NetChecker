@@ -28,6 +28,7 @@ using System.Net.Http;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace CaprineNetChecker
 {
@@ -93,22 +94,18 @@ namespace CaprineNetChecker
 				Text = "Starting...",
 				Icon = Icon.FromHandle(Icons["help"])
 			};
+
+			TrayIcon.DoubleClick += (object sender, EventArgs e) =>
+			{
+				var settingsWindow = new SettingsWindow();
+				settingsWindow.ShowDialog();
+			};
 		}
 
 		private void SetUpTrayIconMenus()
 		{
-			var aboutItem = new MenuItem("About", (object sender, EventArgs e) =>
-			{
-				var aboutWindow = new AboutWindow();
-				aboutWindow.ShowDialog();
-			});
-
-			var settingsItem = new MenuItem("Settings", (object sender, EventArgs e) =>
-			{
-				var settingsWindow = new SettingsWindow();
-				settingsWindow.ShowDialog();
-			});
-
+			var aboutItem = new MenuItem("About", (object sender, EventArgs e) => ShowWindow("AboutWindow"));
+			var settingsItem = new MenuItem("Settings", (object sender, EventArgs e) => ShowWindow("SettingsWindow"));
 			var exitMenuItem = new MenuItem("Exit", (object sender, EventArgs e) =>
 			{
 				TrayIcon.Visible = false;
@@ -171,6 +168,22 @@ namespace CaprineNetChecker
 		private void SetIcon(string key)
 		{
 			TrayIcon.Icon = Icon.FromHandle(Icons[key]);
+		}
+
+		/// <summary>
+		/// Creates and displays a <see cref="Form">Form</see> if it isn't already instantiated
+		/// </summary>
+		/// <param name="formName"></param>
+		private void ShowWindow(string formName)
+		{
+			var forms = Application.OpenForms.Cast<Form>(); // Cast because FormCollection by itself doesn't implement IEnumerable<T>
+			if (!forms.Any(f => f.Name == formName))
+			{
+				var ass = Assembly.GetExecutingAssembly();
+				var type = ass.GetTypes().First(t => t.Name == formName);
+				var formWindow = (Form)Activator.CreateInstance(type);
+					formWindow.ShowDialog();
+			}
 		}
 	}
 }
