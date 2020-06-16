@@ -35,8 +35,7 @@ namespace CaprineNetChecker
 	{
 		private readonly Random Rng;
 		private readonly HttpClient Client;
-		public static NotifyIcon TrayIcon;
-		private TimeSpan CheckInterval;
+		private readonly System.Timers.Timer CheckTimer;
 		private readonly List<string> RequestSubdomains = new List<string>
 		{
 			"docs",
@@ -61,20 +60,30 @@ namespace CaprineNetChecker
 			["accept"] = Properties.Resources.accept.GetHicon(),
 		};
 		private readonly Properties.Settings Settings = Properties.Settings.Default;
+
 		private bool Checking = false;
+
+		public static NotifyIcon TrayIcon;
 
 		public App()
 		{
 			Rng = new Random();
 			Client = new HttpClient();
 
-			CheckInterval = TimeSpan.FromSeconds(Settings.CheckInterval);
-
 			SetUpTrayIcon();
 			SetUpTrayIconMenus();
-			StartTimer();
+
+			CheckTimer = new System.Timers.Timer
+			{
+				Interval = Settings.CheckInterval*1000,
+				AutoReset = true
+			};
+
+			CheckTimer.Elapsed += async (object sender, System.Timers.ElapsedEventArgs e) => await CheckInternet();
 
 			Task.Run(async () => await CheckInternet());
+
+			CheckTimer.Start();
 		}
 
 		private void SetUpTrayIcon()
@@ -116,8 +125,6 @@ namespace CaprineNetChecker
 
 			TrayIcon.Visible = true;
 		}
-
-		private void StartTimer() => new System.Threading.Timer(async (state) => await CheckInternet(), null, CheckInterval, CheckInterval);
 
 		private async Task CheckInternet()
 		{
